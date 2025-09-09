@@ -5,21 +5,40 @@
 class Book:
     # the "init" function is called when the instance is
     # created and ready to be initialized
-    def __init__(self, title):
+    def __init__(self, title, author, pages, price):
         self.title = title
         # TODO: add properties
+        self.author = author
+        self.pages = pages
+        self.price = price
+        # with a __ python will make it so can't be seen outside class
+        self.__secret = "this is a secret attribute"
 
     # TODO: create instance methods
-
+    def getprice(self):
+        if hasattr(self, "_discount"):
+            return self.price - (self.price * self._discount)
+        return self.price
+    
+    def setdiscount(self, amount):
+        # _attribute tells other developers that this is internal and not to be used by other developers
+        # can't be relied on, so don't use it elsewhere in the code
+        self._discount = amount
 
 # TODO: create some book instances
-b1 = Book("War and Peace")
-b2 = Book("The Catcher in the Rye")
+b1 = Book("War and Peace", "Leo Tolstoy", 1225, 39.95)
+b2 = Book("The Catcher in the Rye", "JD Salinger", 234, 29.95)
 
 # TODO: print the price of book1
-
+print(b1.getprice())
 
 # TODO: try setting the discount
+print(b2.getprice())
+b2.setdiscount(0.25)
+print(b2.getprice())
 
 
 # TODO: properties with double underscores are hidden by the interpreter
+# print(b2.__secret)
+#  not perfect, as using the class name will allow:
+print(b2._Book__secret)
