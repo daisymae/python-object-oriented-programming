@@ -1,26 +1,38 @@
 # Python Object Oriented Programming by Joe Marini course example
 # Using Abstract Base Classes to enforce class constraints
 
+from abc import ABC, abstractmethod
 
-class GraphicShape:
+class GraphicShape(ABC):
     def __init__(self):
         super().__init__()
 
+    @abstractmethod
     def calcArea(self):
         pass
 
 
 class Circle(GraphicShape):
     def __init__(self, radius):
+        # NOTE: his finished does NOT include the call to super
+        # but sonarQube insists
+        super().__init__()
         self.radius = radius
+
+    def calcArea(self):
+        return 3.14 * (self.radius ** 2)
 
 
 class Square(GraphicShape):
     def __init__(self, side):
+        super().__init__()
         self.side = side
 
+    def calcArea(self):
+        return self.side * self.side
 
-g = GraphicShape()
+
+# g = GraphicShape() # this will error because now abstract
 
 c = Circle(10)
 print(c.calcArea())

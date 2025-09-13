@@ -1,5 +1,6 @@
 # Python Object Oriented Programming by Joe Marini course example
 # Programming challenge: use inheritance and abstract classes
+from abc import ABC, abstractmethod
 
 # Challenge: create a class structure to represent stocks and bonds
 # Requirements:
@@ -12,15 +13,32 @@
 # For stocks: "Ticker: Company -- $Price"
 # For bonds: "description: duration'yr' : $price : yieldamt%"
 
-class Asset():
-    pass
+class Asset(ABC):
+    def __init__(self, price):
+        self.price = price
 
-class Stock():
-    pass
+    @abstractmethod
+    def get_description(self):
+        pass
 
-class Bond():
-    pass
+class Stock(Asset):
+    def __init__(self, ticker, price, company):
+        super().__init__(price)
+        self.company = company
+        self.ticker = ticker
 
+    def get_description(self):
+        return f"{self.ticker}: {self.company} -- ${self.price}"
+
+class Bond(Asset):
+    def __init__(self, price, description, duration, interest):
+        super().__init__(price)
+        self.description = description
+        self.duration = duration
+        self.interest = interest
+
+    def get_description(self):
+        return f"{self.description}: {self.duration} : ${self.price} : {self.interest}%"
 
 # ~~~~~~~~~ TEST CODE ~~~~~~~~~
 try:
